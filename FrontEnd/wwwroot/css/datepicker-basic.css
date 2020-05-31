@@ -1,0 +1,22 @@
+﻿
+.ui-datepicker,
+.ui-state-default, .ui-widget-content .ui-state-default,
+.ui-datepicker-header,
+.ui-datepicker-header > a.ui-state-hover {
+    background-color: #FFFFFF;
+    cursor: pointer;
+    font-weight: 900;
+    text-align: center;
+    border: 1px solid #000000;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active {
+    background: #0275d8;
+}
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight {
+    background-color: #FFFFFF;
+    border: 1px solid #000000;
+    background: #FFFFFF;
+    color: #000000;
+}

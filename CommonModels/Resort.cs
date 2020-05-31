@@ -8,7 +8,7 @@ namespace CommonModels
     public class Resort
     {
         public int ResortId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Kenttä ei voi olla tyhjä")]
         [Display(Name = "Toimipiste")]
         public string ResortName { get; set; }
         [JsonIgnore]

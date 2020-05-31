@@ -1,0 +1,92 @@
+﻿@model IEnumerable<CommonModels.CabinReservation>
+
+@{
+    ViewData["Title"] = "Omat majoitusvarauksesi";
+}
+
+<h1>Omat majoitusvarauksesi</h1>
+<br />
+<br />
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success" role="alert">
+        @ViewBag.Message
+    </div>
+}
+<br />
+
+@if (Model == null)
+{
+    <label>Sinulla ei ole majoitusvarauksia</label>
+}
+
+@if (Model != null)
+{
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    <h6>Toimipiste</h6>
+                </th>
+                <th>
+                    <h6>Majoituspaikka</h6>
+                </th>
+                <th>
+                    <h6>Varaaja</h6>
+                </th>
+                <th>
+                    <h6>@Html.DisplayNameFor(model => model.ReservationStartDate)</h6>
+                </th>
+                <th>
+                    <h6>@Html.DisplayNameFor(model => model.ReservationEndDate)</h6>
+                </th>
+                <th>
+                    <h6>@Html.DisplayNameFor(model => model.ReservationBookingTime)</h6>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var bookingTime = item.ReservationBookingTime.ToString("dd'.'MM'.'yyyy HH:mm:ss");
+                var startDate = item.ReservationStartDate.ToString("dd'.'MM'.'yyyy");
+                var endDate = item.ReservationEndDate.ToString("dd'.'MM'.'yyyy");
+                <tr>
+                    <td class="align-middle">
+                        @Html.DisplayFor(modelItem => item.Cabin.Resort.ResortName)
+                    </td>
+                    <td class="align-middle">
+                        @Html.DisplayFor(modelItem => item.Cabin.CabinName)
+                    </td>
+                    <td class="align-middle">
+                        @Html.DisplayFor(modelItem => item.Person.FirstName) @Html.DisplayFor(modelItem => item.Person.LastName)
+                    </td>
+                    <td class="align-middle">
+                        @startDate
+                    </td>
+                    <td class="align-middle">
+                        @endDate
+                    </td>
+                    <td class="align-middle">
+                        @bookingTime
+                    </td>
+                    <td class="text-right">
+                        <a asp-action="CabinReservationDetails" asp-route-id="@item.CabinReservationId" class="btn btn-info btn-sm">Tiedot</a>
+                        @if (item.ReservationStartDate < DateTime.Now.AddDays(1) && !User.IsInRole("Administrator"))
+                        {
+
+                            @*<a href="#" class="btn btn-success btn-sm disabled">Muokkaa</a>
+                                <a href="#" class="btn btn-danger btn-sm disabled">Poista</a>*@
+                        }
+                        else
+                        {
+                            <a asp-controller="CabinReservations" asp-action="Edit" asp-route-id="@item.CabinReservationId" class="btn btn-success btn-sm">Muokkaa</a>
+                            <a asp-action="DeleteCabinReservation" asp-route-id="@item.CabinReservationId" class="btn btn-danger btn-sm">Poista</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

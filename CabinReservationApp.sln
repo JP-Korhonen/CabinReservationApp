@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackEnd", "BackEnd\BackEnd.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonModels", "CommonModels\CommonModels.csproj", "{94555FEA-ADBA-49DE-8A36-B689C26007A2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrontEnd", "FrontEnd\FrontEnd.csproj", "{5DF28996-C54D-448C-A7E7-86FC680A83D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{94555FEA-ADBA-49DE-8A36-B689C26007A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94555FEA-ADBA-49DE-8A36-B689C26007A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94555FEA-ADBA-49DE-8A36-B689C26007A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DF28996-C54D-448C-A7E7-86FC680A83D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DF28996-C54D-448C-A7E7-86FC680A83D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DF28996-C54D-448C-A7E7-86FC680A83D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DF28996-C54D-448C-A7E7-86FC680A83D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

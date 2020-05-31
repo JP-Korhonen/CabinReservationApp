@@ -51,7 +51,7 @@ namespace BackEnd
 
             services.AddDbContext<BackEndContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("cabinreservationsystemdb"));
+                options.UseSqlServer(Configuration.GetConnectionString("DbConnectionString"));
             });
 
             services.AddControllers();
@@ -65,8 +65,8 @@ namespace BackEnd
                 app.UseDeveloperExceptionPage();
             }
 
-            // Creating database if not exists
-            dbContext.Database.EnsureCreated();
+            //// Creating database if not exists
+            //dbContext.Database.EnsureCreated();
 
             app.UseHttpsRedirection();
 

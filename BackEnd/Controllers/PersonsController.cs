@@ -45,7 +45,7 @@ namespace BackEnd.Controllers
             try
             {
                 var person = await _context.Person.Where(person => person.Email == User.Identity.Name)
-                    .Include(person => person.Post)
+                   // .Include(person => person.Post)
                     .FirstOrDefaultAsync();
                 if (person == null) return NotFound();
                 return person;

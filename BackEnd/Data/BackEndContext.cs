@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CommonModels;
+using Microsoft.EntityFrameworkCore;
 using System;
-using CommonModels;
 
 namespace BackEnd.Data
 {
-    public class BackEndContext : DbContext
+    public class BackEndContext:DbContext
     {
         public BackEndContext(DbContextOptions<BackEndContext> options) : base(options) { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -82,7 +82,8 @@ namespace BackEnd.Data
                     PhoneNumber = "admin@localhost.org",
                     Address = "admin@localhost.org",
                     Email = "admin@localhost.org"
-                });
+                }
+                );
         }
     }
 }

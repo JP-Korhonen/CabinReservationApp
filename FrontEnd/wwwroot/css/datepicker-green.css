@@ -1,0 +1,73 @@
+﻿/*
+Styling Datepicker
+https://www.hongkiat.com/blog/jquery-ui-datepicker/ 
+*/
+
+.greenday > span.ui-state-default,
+.greenday > a.ui-state-default {
+    /*background-color: #a6f7b8;*/
+    background-color: #c3e6cb;
+    color: #155724;
+    font-weight: 900;
+    text-align: center;
+}
+
+.darkgreenday > a.ui-state-default {
+    background-color: #006400;
+    font-weight: 900;
+    text-align: center;
+}
+
+.redday > span.ui-state-default,
+.redday > a.ui-state-default {
+    /*background-color: #FF0000;*/
+    background-color: #fb6d6d;
+    color: #155724;
+    font-weight: 900;
+    text-align: center;
+}
+
+.ui-state-disabled, .ui-widget-content .ui-state-disabled {
+    opacity: 1
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active {
+    border: 1px solid #c5c5c5;
+    background: inherit;
+    color: #454545;
+}
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight {
+    border: 1px solid #c5c5c5;
+    background: inherit;
+    color: #454545;
+}
+
+.ui-datepicker-inline,
+.ui-datepicker,
+.ui-datepicker-header,
+.ui-datepicker-header > a.ui-state-hover {
+    /*background-color: #a6f7b8;*/
+    background-color: #c3e6cb;
+    color: #155724;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.startday > span.ui-state-default,
+.startday > a.ui-state-default {
+    background-image: url("https://cabinreservationsystemsa.blob.core.windows.net/cabinreservationsystemblob/Calendar-start.png");
+    background-size: cover;
+    font-weight: 900;
+    text-align: center;
+    color: #155724;
+}
+
+.endday > span.ui-state-default,
+.endday > a.ui-state-default {
+    background-image: url("https://cabinreservationsystemsa.blob.core.windows.net/cabinreservationsystemblob/Calendar-end.png");
+    background-size: cover;
+    font-weight: 900;
+    text-align: center;
+    color: #155724;
+}
