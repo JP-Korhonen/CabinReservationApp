@@ -9,16 +9,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     @* CSS for calendar *@
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    
     @RenderSection("Styles", false)
 
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid" style="padding-left:7em; padding-right:7em;">
+            <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="https://cabinreservationsystemsa.blob.core.windows.net/cabinreservationsystemblob/test-nav.png" height="100" width="171" />
+                    <img src="~/images/village-people-logo.png" width="156" height="86" />
                 </a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -48,12 +48,10 @@
     </div>
 
     <br /><br />
-
-    <div style="padding:60px;"></div>
-
-    <footer class="container-fluid text-center" style="padding-top:50px; padding-bottom:50px; border-top-right-radius: 25px; border-top-left-radius: 25px; @*border-top-style: groove;*@">
+    <hr />
+    <footer class="container text-center" >
         <div class="row">
-            <div class="col-sm-4" style="padding-top:100px">
+            <div class="col-sm-4">
                 <h3>Ota yhteyttä</h3>
                 <br />
                 <br />
@@ -65,19 +63,16 @@
                 <br />
                 <br />
             </div>
-            <div class="col-sm-4" style="padding-top:100px">
+            <div class="col-sm-4" >
                 <h3>Seuraa meitä</h3>
                 <br />
                 <a href="#" class="fa fa-facebook" style="padding: 20px; font-size: 30px; text-decoration: none;"></a>
                 <a href="#" class="fa fa-twitter" style="padding: 20px; font-size: 30px; text-decoration: none;"></a>
                 <a href="#" class="fa fa-youtube" style="padding: 20px; font-size: 30px; text-decoration: none;"></a>
                 <a href="#" class="fa fa-instagram" style="padding: 20px; font-size: 30px; text-decoration: none;"></a>
-                <a href="#" class="fa fa-linkedin" style="padding: 20px;
-        font-size: 30px;
-        text-decoration: none;
-"></a>
+                <a href="#" class="fa fa-linkedin" style="padding: 20px; font-size: 30px; text-decoration: none;"></a>
             </div>
-            <div class="col-sm-4" style="padding-top:100px">
+            <div class="col-sm-4">
                 <h3>Developers</h3>
                 <br />
                 <br />
@@ -86,11 +81,11 @@
                 <h4 class="lead">Pasi Yli-Pirilä</h4>
             </div>
         </div>
-        <div style="align-content:center; padding-top:100px">
-            <img src="https://cabinreservationsystemsa.blob.core.windows.net/cabinreservationsystemblob/vp3.png" style="width: 6em; height: 6em;" />
+        @*<div style="align-content:center; padding-top:100px">
+            <img src="https://jpkstorageaccount.blob.core.windows.net/cabinreservationappblob/village-people-logo.png" style="width: 187px; height: 103px;" />
             <br />
-            &copy; 2020 - CabinReservationWebApplication
-        </div>
+            &copy; 2020 - VillagePeople Oy
+        </div>*@
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

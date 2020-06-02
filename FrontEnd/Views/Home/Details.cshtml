@@ -36,6 +36,7 @@
     }
 }
 @section Styles{
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="~/css/datepicker-green.css" type="text/css" />
 }
 
@@ -68,11 +69,9 @@
 <br />
 <br />
 
-@*<img src="https://cabinreservationsystemsa.blob.core.windows.net/cabinreservationsystemblob/vp3.png" height="300" />*@
-
 @if (cabins.CabinImages.Count() == 0)
 {
-    <img src="https://cabinreservationsystemsa.blob.core.windows.net/cabinreservationsystemblob/vp3.png" style="width:20em; height:20em;" />
+    <img src="~/images/village-people-logo.png" style="width:20em; height:20em;" />
 }
 else
 {

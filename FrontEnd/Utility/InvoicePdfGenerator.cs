@@ -7,13 +7,15 @@ namespace FrontEnd.Utility
     {
         public static string GetHTMLString(Invoice invoiceData)
         {
+            //< img src = '~/wwwroot/images/village-people-logo.png' height = '150' />< br >
+
             var sb = new StringBuilder();
             sb.AppendFormat(@"
                 <html>
                 <head></head>
                 <body>
                         <div class='div-container-right'>
-                                <img src = 'https://cabinreservationsystemsa.blob.core.windows.net/cabinreservationsystemblob/vp3.png' height='150' /><br>
+                                
                                 Village People Oy<br />
                                 Mökkitie 1<br />
                                 Evitskog<br />

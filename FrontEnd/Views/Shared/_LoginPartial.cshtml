@@ -12,7 +12,7 @@
             <a class="nav-link btn btn-link text-dark text-left" id="userReservations" asp-controller="User" asp-action="CabinReservations" title="Manage"><b>Varaukseni</b></a>
         </li>
         <li class="nav-item">
-            <a asp-area="Identity" asp-page="/Account/Manage/Index"><img src="https://cabinreservationsystemsa.blob.core.windows.net/cabinreservationsystemblob/loggedin.png" height="25" width="25" /></a>
+            <a asp-area="Identity" asp-page="/Account/Manage/Index" class="nav-link btn btn-link text-dark text-left"><b>Omat tiedot</b></a>
         </li>
         <li class="nav-item">
             <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">

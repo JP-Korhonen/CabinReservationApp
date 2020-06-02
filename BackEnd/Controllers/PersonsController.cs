@@ -27,7 +27,9 @@ namespace BackEnd.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task<ActionResult<Person>> GetPerson(int id)
         {
-            var person = await _context.Person.Where(person => person.PersonId == id).Include(person => person.Post).FirstOrDefaultAsync();
+            var person = await _context.Person.Where(person => person.PersonId == id)
+                .Include(person => person.Post)
+                .FirstOrDefaultAsync();
 
             if (person == null)
             {
@@ -45,7 +47,7 @@ namespace BackEnd.Controllers
             try
             {
                 var person = await _context.Person.Where(person => person.Email == User.Identity.Name)
-                   // .Include(person => person.Post)
+                    .Include(person => person.Post)
                     .FirstOrDefaultAsync();
                 if (person == null) return NotFound();
                 return person;

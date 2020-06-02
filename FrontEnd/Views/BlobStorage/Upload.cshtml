@@ -2,7 +2,7 @@
 @model CommonModels.CabinImage
 
 @{
-    ViewData["Title"] = "Upload";
+    ViewData["Title"] = "Lisää kuva";
 
     List<CabinImage> cabinImages = ViewBag.CabinImages;
 }
@@ -54,7 +54,7 @@
 
             @foreach (var item in cabinImages)
             {
-                var source = "https://cabinreservationsystemsa.blob.core.windows.net/cabinreservationsystemblob/" + item.ImageUrl;
+                var source = "https://jpkstorageaccount.blob.core.windows.net/cabinreservationappblob/" + item.ImageUrl;
                 <tr>
                     <td>
                         <img src="@source" height="300" />

@@ -9,6 +9,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="~\**" />
+    <Content Remove="~\**" />
+    <EmbeddedResource Remove="~\**" />
+    <None Remove="~\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\images\calendar-end.png" />
+    <None Include="wwwroot\images\calendar-start.png" />
+    <None Include="wwwroot\images\map-finland-blue.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DinkToPdf" Version="1.0.8" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.4" />

@@ -26,14 +26,14 @@ namespace FrontEnd.Controllers
             string blobStorageConnection = _configuration.GetConnectionString("BlobStorage");
             _cloudStorageAccount = CloudStorageAccount.Parse(blobStorageConnection);
             _blobClient = _cloudStorageAccount.CreateCloudBlobClient();
-            _container = _blobClient.GetContainerReference("cabinreservationsystemblob");
+            _container = _blobClient.GetContainerReference("cabinreservationappblob");
 
             _service = service;
         }
 
         // Returns view where Administrator/CabinOwner can upload images to Cabin
         // BlobStorage example taken from https://tutexchange.com/uploading-download-and-delete-files-in-azure-blob-storage-using-asp-net-core-3-1/
-        // Uploads images to Azure BlobStorage "cabinreservationsystemblob"
+        // Uploads images to Azure BlobStorage "cabinreservationappblob"
         [HttpGet]
         [Authorize(Roles = "Administrator, CabinOwner")]
         public async Task<IActionResult> Upload(int cabinId, bool errorMessage)
@@ -67,14 +67,17 @@ namespace FrontEnd.Controllers
                 var imageName = $"{Guid.NewGuid().ToString()}";
 
                 cabinImage.ImageUrl = imageName;
-                var postCabinImage = await _service.PostCabinImage(User, cabinImage);
-                if (!postCabinImage) return View("ErrorPage");
 
                 CloudBlockBlob blockBlob = _container.GetBlockBlobReference(imageName);
+                blockBlob.Properties.ContentType = cabinImage.Files.ContentType;
                 await using (var data = cabinImage.Files.OpenReadStream())
                 {
                     await blockBlob.UploadFromStreamAsync(data);
                 }
+
+                cabinImage.Files = null;
+                var postCabinImage = await _service.PostCabinImage(User, cabinImage);
+                if (!postCabinImage) return View("ErrorPage");
 
                 return RedirectToAction("Upload", new { cabinId = cabinImage.CabinId });
             }

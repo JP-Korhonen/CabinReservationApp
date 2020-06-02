@@ -305,7 +305,7 @@ namespace FrontEnd.Controllers
             {
                 PagesCount = true,
                 HtmlContent = InvoicePdfGenerator.GetHTMLString(invoiceDetails),
-                WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "pdf.css") }
+                WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot", "css", "pdf.css") }
             };
 
             var pdf = new HtmlToPdfDocument
@@ -343,7 +343,7 @@ namespace FrontEnd.Controllers
             {
                 PagesCount = true,
                 HtmlContent = InvoicePdfGenerator.GetHTMLString(invoiceDetails),
-                WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "Assets", "pdf.css") }
+                WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot",  "css", "pdf.css") }
             };
 
             var pdf = new HtmlToPdfDocument

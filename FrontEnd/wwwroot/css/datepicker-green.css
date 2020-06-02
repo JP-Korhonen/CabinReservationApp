@@ -56,7 +56,7 @@ https://www.hongkiat.com/blog/jquery-ui-datepicker/
 
 .startday > span.ui-state-default,
 .startday > a.ui-state-default {
-    background-image: url("https://cabinreservationsystemsa.blob.core.windows.net/cabinreservationsystemblob/Calendar-start.png");
+    background-image: url("../images/calendar-start.png");
     background-size: cover;
     font-weight: 900;
     text-align: center;
@@ -65,7 +65,7 @@ https://www.hongkiat.com/blog/jquery-ui-datepicker/
 
 .endday > span.ui-state-default,
 .endday > a.ui-state-default {
-    background-image: url("https://cabinreservationsystemsa.blob.core.windows.net/cabinreservationsystemblob/Calendar-end.png");
+    background-image: url("../images/calendar-end.png");
     background-size: cover;
     font-weight: 900;
     text-align: center;

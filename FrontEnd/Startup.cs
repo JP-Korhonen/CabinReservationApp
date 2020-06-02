@@ -27,8 +27,12 @@ namespace FrontEnd
         public void ConfigureServices(IServiceCollection services)
         {
             var restApiConfigSection = Configuration.GetSection("RestApiConfig");
-            RestApiConfig config = restApiConfigSection.Get<RestApiConfig>();
-            services.AddSingleton(config);
+            RestApiConfig restApiConfig = restApiConfigSection.Get<RestApiConfig>();
+            services.AddSingleton(restApiConfig);
+
+            var blobStorageConfigSection = Configuration.GetSection("BlobStorageConfig");
+            BlobStorageConfig blobStorageConfig = blobStorageConfigSection.Get<BlobStorageConfig>();
+            services.AddSingleton(blobStorageConfig);
 
             var jwtConfigSection = Configuration.GetSection("JwtSettings");
             JWTConfig jWTConfig = jwtConfigSection.Get<JWTConfig>();
