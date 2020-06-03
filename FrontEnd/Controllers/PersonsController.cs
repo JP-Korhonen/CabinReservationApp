@@ -51,12 +51,36 @@ namespace FrontEnd.Controllers
         //GET: Persons/Index
         //Returns view with List of Persons by search conditions
         [HttpPost]
-        public async Task<IActionResult> Index(Person person)
+        public async Task<IActionResult> Index(Person person, int pageNumber)
         {
             try
             {
-                ViewBag.Persons = await _service.GetPersons(User, person.FirstName, person.LastName);
+                var persons = await _service.GetPersons(User, person.FirstName, person.LastName);
+
                 ViewBag.FirstEntry = false;
+
+                var pageNumbers = 1;
+                var pageSize = 10;
+
+                if (persons != null)
+                {
+                    // Counting page numbers
+                    if (persons.Count() > pageSize)
+                    {
+                        pageNumbers += persons.Count() / pageSize;
+                        if (persons.Count() % pageSize == 0) pageNumbers--;
+                    }
+
+                    if (pageNumber == 0) pageNumber = 1;
+
+                    persons = persons.Skip((pageNumber - 1) * pageSize)
+                      .Take(pageSize);
+
+                    ViewBag.Persons = persons;
+
+                    ViewBag.PageNumbers = pageNumbers;
+                    ViewBag.PageNumber = pageNumber;
+                }
 
                 return View();
             }

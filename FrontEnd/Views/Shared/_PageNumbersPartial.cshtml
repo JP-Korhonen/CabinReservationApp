@@ -1,0 +1,17 @@
+﻿@if (ViewBag.PageNumbers != null)
+{
+    <ul class="pagination">
+        @for (int i = 1; i < ViewBag.PageNumbers + 1; i++)
+        {
+            @if (ViewBag.PageNumber == i)
+            {
+                <li class="page-item"><input type="submit" asp-route-pageNumber="@i" class="page-link" value="@i" disabled style="color:black;" /></li>
+
+            }
+            else
+            {
+                <li class="page-item"><input type="submit" asp-route-pageNumber="@i" class="page-link" value="@i" /></li>
+            }
+        }
+    </ul>
+}

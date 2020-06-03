@@ -35,7 +35,7 @@ $(function () {
     }
 
     // Setting options for datepicker
-    $("#ArricalDatePicker").datepicker({
+    $("#ArrivalDatePicker").datepicker({
         dateFormat: "dd.mm.yy"
         , minDate: 0
         , firstDay: 1

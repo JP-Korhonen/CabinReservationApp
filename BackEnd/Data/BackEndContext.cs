@@ -76,11 +76,11 @@ namespace BackEnd.Data
                 {
                     PersonId = 1,
                     PostalCode = "00100",
-                    SocialSecurityNumber = "admin@localhost.org",
-                    FirstName = "admin@localhost.org",
-                    LastName = "admin@localhost.org",
-                    PhoneNumber = "admin@localhost.org",
-                    Address = "admin@localhost.org",
+                    SocialSecurityNumber = "-",
+                    FirstName = "-",
+                    LastName = "-",
+                    PhoneNumber = "-",
+                    Address = "-",
                     Email = "admin@localhost.org"
                 }
                 );

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using CommonModels;
 using FrontEnd.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using X.PagedList;
 
 namespace FrontEnd.Controllers
 {
@@ -33,12 +33,6 @@ namespace FrontEnd.Controllers
         [HttpPost]
         public async Task<ActionResult> Index(CabinSearch cabinSearch)
         {
-            ViewBag.PageArrival = cabinSearch.Arrival;
-            ViewBag.PageDeparture = cabinSearch.Departure;
-            ViewBag.PageRooms = cabinSearch.Rooms;
-            ViewBag.PageSearchWord = cabinSearch.SearchWord;
-            ViewBag.PageSort = cabinSearch.Sort;
-
             if (cabinSearch.Rooms == null) cabinSearch.Rooms = "1";
             else cabinSearch.Rooms = cabinSearch.Rooms.Remove(cabinSearch.Rooms.Length - 9);
             if (cabinSearch.Rooms == ">10") cabinSearch.Rooms = "11";
@@ -49,122 +43,71 @@ namespace FrontEnd.Controllers
             if (cabinSearch.Arrival != DateTime.MinValue) ViewBag.Arrival = cabinSearch.Arrival.ToString("dd'.'MM'.'yyyy");
             if (cabinSearch.Departure != DateTime.MinValue) ViewBag.Departure = cabinSearch.Departure.ToString("dd'.'MM'.'yyyy");
 
-            switch (cabinSearch.Sort)
-            {
-                case "Hinta - Halvimmat ensin":
-                    cabins = cabins.OrderBy(cabin => cabin.CabinPricePerDay);
-                    break;
-                case "Hinta - Kalleimmat ensin":
-                    cabins = cabins.OrderByDescending(cabin => cabin.CabinPricePerDay);
-                    break;
-                case "Pinta-ala - Suurimmat ensin":
-                    cabins = cabins.OrderByDescending(cabin => cabin.Area);
-                    break;
-                case "Pinta-ala - Pienimmät ensin":
-                    cabins = cabins.OrderBy(cabin => cabin.Area);
-                    break;
-                case "Makuuhuoneet - Max.":
-                    cabins = cabins.OrderByDescending(cabin => cabin.Rooms);
-                    break;
-                case "Makuuhuoneet - Min.":
-                    cabins = cabins.OrderBy(cabin => cabin.Rooms);
-                    break;
-                case "Nimi - Laskeva aakkosjärjestys":
-                    cabins = cabins.OrderBy(cabin => cabin.CabinName);
-                    break;
-                case "Nimi - Nouseva aakkosjärjestys":
-                    cabins = cabins.OrderByDescending(cabin => cabin.CabinName);
-                    break;
-            }
-
-            int pageSize = 5;
-            int pageNumber = 1;
+            var pageNumbers = 1;
+            var pageSize = 10;
 
             if (cabins != null)
             {
-                ViewBag.Cabins = cabins.ToPagedList(pageNumber, pageSize);
+                switch (cabinSearch.Sort)
+                {
+                    case "Hinta - Halvimmat ensin":
+                        cabins = cabins.OrderBy(cabin => cabin.CabinPricePerDay);
+                        break;
+                    case "Hinta - Kalleimmat ensin":
+                        cabins = cabins.OrderByDescending(cabin => cabin.CabinPricePerDay);
+                        break;
+                    case "Makuuhuoneet - Max.":
+                        cabins = cabins.OrderByDescending(cabin => cabin.Rooms);
+                        break;
+                    case "Makuuhuoneet - Min.":
+                        cabins = cabins.OrderBy(cabin => cabin.Rooms);
+                        break;
+                    default:
+                        cabins = cabins.OrderBy(cabin => cabin.Rooms);
+                        cabinSearch.Sort = "Makuuhuoneet - Min.";
+                        break;
+
+                        //case "Pinta-ala - Suurimmat ensin":
+                        //    cabins = cabins.OrderByDescending(cabin => cabin.Area);
+                        //    break;
+                        //case "Pinta-ala - Pienimmät ensin":
+                        //    cabins = cabins.OrderBy(cabin => cabin.Area);
+                        //    break;
+                        //case "Nimi - Laskeva aakkosjärjestys":
+                        //    cabins = cabins.OrderBy(cabin => cabin.CabinName);
+                        //    break;
+                        //case "Nimi - Nouseva aakkosjärjestys":
+                        //    cabins = cabins.OrderByDescending(cabin => cabin.CabinName);
+                        //    break;
+                }
+
+                ViewBag.SelectedSorting = cabinSearch.Sort;
+
+                // Counting page numbers
+                if (cabins.Count() > pageSize)
+                {
+                    pageNumbers += cabins.Count() / pageSize;
+                    if (cabins.Count() % pageSize == 0) pageNumbers--;
+                }
+
+                if (cabinSearch.PageNumber == 0) cabinSearch.PageNumber = 1;
+
+                cabins = cabins.Skip((cabinSearch.PageNumber - 1) * pageSize)
+                  .Take(pageSize);
+
+                ViewBag.Cabins = cabins;
+
+                ViewBag.PageNumbers = pageNumbers;
             }
 
-            return View();
-        }
-
-        public async Task<ActionResult> IndexPagedList(DateTime PageArrival, DateTime PageDeparture, string PageRooms, string searchWord, string PageSort, int? page)
-        {
-            ViewBag.PageArrival = PageArrival;
-            ViewBag.PageDeparture = PageDeparture;
-            ViewBag.PageRooms = PageRooms;
-            ViewBag.PageSearchWord = searchWord;
-            ViewBag.PageSort = PageSort;
-
-            CabinSearch cabinSearch = new CabinSearch
-            {
-                Arrival = DateTime.Now,
-                Departure = DateTime.Now,
-                Rooms = "",
-                SearchWord = "",
-                Sort = ""
-            };
-
-            cabinSearch.Arrival = PageArrival;
-            cabinSearch.Departure = PageDeparture;
-            cabinSearch.Rooms = PageRooms;
-            cabinSearch.SearchWord = searchWord;
-            cabinSearch.Sort = PageSort;
-
-            if (cabinSearch.Rooms == null) cabinSearch.Rooms = "1";
-            else cabinSearch.Rooms = cabinSearch.Rooms.Remove(cabinSearch.Rooms.Length - 9);
-            if (cabinSearch.Rooms == ">10") cabinSearch.Rooms = "11";
-
-            var cabins = await _service.GetCabins(cabinSearch.SearchWord, cabinSearch.Arrival, cabinSearch.Departure, cabinSearch.Rooms);
-            ViewBag.FirstEntry = false;
-
-            if (cabinSearch.Arrival != DateTime.MinValue) ViewBag.Arrival = cabinSearch.Arrival.ToString("dd'.'MM'.'yyyy");
-            if (cabinSearch.Departure != DateTime.MinValue) ViewBag.Departure = cabinSearch.Departure.ToString("dd'.'MM'.'yyyy");
-
-            switch (cabinSearch.Sort)
-            {
-                case "Hinta - Halvimmat ensin":
-                    cabins = cabins.OrderBy(cabin => cabin.CabinPricePerDay);
-                    break;
-                case "Hinta - Kalleimmat ensin":
-                    cabins = cabins.OrderByDescending(cabin => cabin.CabinPricePerDay);
-                    break;
-                case "Pinta-ala - Suurimmat ensin":
-                    cabins = cabins.OrderByDescending(cabin => cabin.Area);
-                    break;
-                case "Pinta-ala - Pienimmät ensin":
-                    cabins = cabins.OrderBy(cabin => cabin.Area);
-                    break;
-                case "Makuuhuoneet - Max.":
-                    cabins = cabins.OrderByDescending(cabin => cabin.Rooms);
-                    break;
-                case "Makuuhuoneet - Min.":
-                    cabins = cabins.OrderBy(cabin => cabin.Rooms);
-                    break;
-                case "Nimi - Laskeva aakkosjärjestys":
-                    cabins = cabins.OrderBy(cabin => cabin.CabinName);
-                    break;
-                case "Nimi - Nouseva aakkosjärjestys":
-                    cabins = cabins.OrderByDescending(cabin => cabin.CabinName);
-                    break;
-            }
-
-            int pageSize = 5;
-            int pageNumber = (page ?? 1);
-
-            if (cabins != null)
-            {
-                ViewBag.Cabins = cabins.ToPagedList(pageNumber, pageSize);
-            }
-
-            return View();
+            return View(cabinSearch);
         }
 
         // GET: Home/Details/5
         // Return view with selected Cabin details
         public async Task<ActionResult> Details(int id)
         {
-            var cabin = await _service.GetCabin(id);
+            Cabin cabin = await _service.GetCabin(id);
             return View(cabin);
         }
 
@@ -176,17 +119,5 @@ namespace FrontEnd.Controllers
             if (User.IsInRole("CabinOwner") || User.IsInRole("Administrator")) return RedirectToAction("Create", "Cabins");
             return View();
         }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        //public IActionResult Error()
-        //{
-        //    //return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        //}
-
     }
 }

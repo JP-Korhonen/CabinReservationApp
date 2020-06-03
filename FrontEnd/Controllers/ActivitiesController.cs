@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using CommonModels;
 using FrontEnd.Areas.Identity.Data;
 using FrontEnd.Models;
@@ -46,13 +47,37 @@ namespace FrontEnd.Controllers
         // GET: Activities/Index
         // Returns view with List of Activities by search conditions
         [HttpPost]
-        public async Task<IActionResult> Index(Activity activity)
+        public async Task<IActionResult> Index(Activity activity, int pageNumber)
         {
-            ViewBag.Activities = await _service.GetActivities(User, activity.Resort.ResortName, activity.ActivityName, activity.ActivityProvider);
+            var activities = await _service.GetActivities(User, activity.Resort.ResortName, activity.ActivityName, activity.ActivityProvider);
+
             ViewBag.FirstEntry = false;
 
             // If request came from Resorts/Index, set these
             ViewBag.ResortName = activity.Resort.ResortName;
+
+            var pageNumbers = 1;
+            var pageSize = 10;
+
+            if (activities != null)
+            {
+                // Counting page numbers
+                if (activities.Count() > pageSize)
+                {
+                    pageNumbers += activities.Count() / pageSize;
+                    if (activities.Count() % pageSize == 0) pageNumbers--;
+                }
+
+                if (pageNumber == 0) pageNumber = 1;
+
+                activities = activities.Skip((pageNumber - 1) * pageSize)
+                  .Take(pageSize);
+
+                ViewBag.Activities = activities;
+
+                ViewBag.PageNumbers = pageNumbers;
+                ViewBag.PageNumber = pageNumber;
+            }
 
             return View();
         }

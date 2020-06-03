@@ -59,30 +59,6 @@
 
         </tbody>
     </table>
-
-    @*<hr />
-        <div class="container">
-            <div class="row">
-                @foreach (var item in Model)
-                {
-                    <div class="col-md-5"><h6>@Html.DisplayFor(modelItem => item.ResortName)</h6></div>
-                    <div class="col-md-2">
-                        <form asp-controller="Cabins" asp-action="Index" method="post">
-                            <input type="submit" value="Majoituspaikat" asp-controller="Cabins" asp-action="Index" asp-route-Cabin.Resort.ResortName="@item.ResortName" class="btn btn-primary btn-sm" />
-                        </form>
-                    </div>
-                    <div class="col-md-2">
-                        <form asp-controller="Cabins" asp-action="Index" method="post">
-                            <input type="submit" value="Lisäpalvelut" asp-controller="Activities" asp-action="Index" asp-route-Activity.Resort.ResortName="@item.ResortName" class="btn btn-primary btn-sm" />
-                        </form>
-                    </div>
-                    <div class="col-md-1"><a asp-action="Edit" asp-route-id="@item.ResortId" class="btn btn-success btn-sm">Muokkaa</a></div>
-                    <div class="col-md-1"><a asp-action="Details" asp-route-id="@item.ResortId" class="btn btn-info btn-sm">Tiedot</a></div>
-                    <div class="col-md-1"><a asp-action="Delete" asp-route-id="@item.ResortId" class="btn btn-danger btn-sm">Poista</a></div>
-                    <br />
-                    <hr />
-                }
-
-            </div>
-        </div>*@
 }
+
+<div style="padding:200px;"></div>

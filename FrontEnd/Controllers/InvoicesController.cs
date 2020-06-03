@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -70,13 +71,34 @@ namespace FrontEnd.Controllers
         // Gets List of Invoices by search conditions
         [HttpPost]
         [Authorize(Roles = "Administrator, CabinOwner")]
-        public async Task<IActionResult> Index(Invoice invoice)
+        public async Task<IActionResult> Index(Invoice invoice, int pageNumber)
         {
             var invoices = await _service.GetInvoices(User, invoice);
 
-            // Getting CabinReservations in Invoices because JsonIgnore-attribute
             if (invoices != null)
             {
+                var pageNumbers = 1;
+                var pageSize = 10;
+
+                if (invoices != null)
+                {
+                    // Counting page numbers
+                    if (invoices.Count() > pageSize)
+                    {
+                        pageNumbers += invoices.Count() / pageSize;
+                        if (invoices.Count() % pageSize == 0) pageNumbers--;
+                    }
+
+                    if (pageNumber == 0) pageNumber = 1;
+
+                    invoices = invoices.Skip((pageNumber - 1) * pageSize)
+                      .Take(pageSize);
+
+                    ViewBag.PageNumbers = pageNumbers;
+                    ViewBag.PageNumber = pageNumber;
+                }
+
+                // Getting CabinReservations in Invoices because JsonIgnore-attribute
                 foreach (var item in invoices)
                 {
                     item.CabinReservation = await _service.GetCabinReservation(User, item.CabinReservationId);
@@ -305,7 +327,7 @@ namespace FrontEnd.Controllers
             {
                 PagesCount = true,
                 HtmlContent = InvoicePdfGenerator.GetHTMLString(invoiceDetails),
-                WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot", "css", "pdf.css") }
+                WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "css", "pdf.css") }
             };
 
             var pdf = new HtmlToPdfDocument
@@ -343,7 +365,7 @@ namespace FrontEnd.Controllers
             {
                 PagesCount = true,
                 HtmlContent = InvoicePdfGenerator.GetHTMLString(invoiceDetails),
-                WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot",  "css", "pdf.css") }
+                WebSettings = { DefaultEncoding = "utf-8", UserStyleSheet = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "css", "pdf.css") }
             };
 
             var pdf = new HtmlToPdfDocument

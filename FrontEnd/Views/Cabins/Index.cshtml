@@ -40,12 +40,13 @@
                 <div class="form-group">
                     <input type="submit" value="Hae" class="btn btn-primary" />
                 </div>
-
+                <partial name="_PageNumbersPartial" />
             </form>
         </div>
     </div>
     <br />
 }
+
 @if (cabins == null && ViewBag.FirstEntry == false && User.IsInRole("Administrator"))
 {
     <label>Annetuilla hakuehdoilla ei löytynyt majoituspaikkoja</label>
@@ -109,3 +110,5 @@
         </tbody>
     </table>
 }
+
+<div style="padding:200px;"></div>

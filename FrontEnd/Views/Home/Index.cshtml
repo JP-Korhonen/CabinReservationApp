@@ -1,20 +1,19 @@
-﻿@using CommonModels
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+@using CommonModels
 @model FrontEnd.Models.CabinSearch
-@using X.PagedList.Mvc.Core
-<link href="~/css/PagedList.css" rel="stylesheet" type="text/css" />
-<link href="~/css/site.css" rel="stylesheet" type="text/css" />
+
 @{
     ViewData["Title"] = "Village People Oy";
-    X.PagedList.IPagedList<Cabin> cabins = ViewBag.Cabins;
-
+    IEnumerable<Cabin> cabins = ViewBag.Cabins;
 }
 
 @section Styles{
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="~/css/datepicker-basic.css" type="text/css" />
-    <link href="~/css/site.css" rel="stylesheet" type="text/css" />
 }
-<div style="padding:100px;"></div>
+<div style="padding:50px;"></div>
 <form asp-action="Index">
     <div class="jumbotron" style="border-bottom-style: outset; border-radius: 1.5rem; background-color: #31ccfd;">
         <div class="container">
@@ -23,15 +22,15 @@
                     <!--TODO: Maybe here we can add autocomplete later -->
                     <input asp-for="SearchWord" class="form-control" placeholder="Toimipiste tai kohde" autocomplete="off" />
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-2">
                     @Html.HiddenFor(model => model.Arrival, new { id = "Arrival" })
-                    <input id="ArricalDatePicker" class="form-control" autocomplete="off" placeholder="Saapuminen" value="@ViewBag.Arrival" />
+                    <input id="ArrivalDatePicker" class="form-control" autocomplete="off" placeholder="Saapuminen" value="@ViewBag.Arrival" />
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-2">
                     @Html.HiddenFor(model => model.Departure, new { id = "Departure" })
                     <input id="DepartureDatePicker" class="form-control" autocomplete="off" placeholder="Lähtö" value="@ViewBag.Departure" />
                 </div>
-                <div class="form-group col-md-2">
+                <div class="form-group col-md-4">
                     <select asp-for="Rooms" class="form-control">
                         <option>1 henkilöä</option>
                         <option>2 henkilöä</option>
@@ -56,94 +55,143 @@
     <br />
     @if (cabins != null)
     {
-        <div class="form-group">
-            <div class="row float-right">
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Järjestä
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                        <input type="submit" asp-for="Sort" class="dropdown-item text-dark" value="Hinta - Halvimmat ensin" />
-                        <input type="submit" asp-for="Sort" class="dropdown-item text-dark" value="Hinta - Kalleimmat ensin" />
-                        <input type="submit" asp-for="Sort" class="dropdown-item text-dark" value="Pinta-ala - Suurimmat ensin" />
-                        <input type="submit" asp-for="Sort" class="dropdown-item text-dark" value="Pinta-ala - Pienimmät ensin" />
-                        <input type="submit" asp-for="Sort" class="dropdown-item text-dark" value="Makuuhuoneet - Max." />
-                        <input type="submit" asp-for="Sort" class="dropdown-item text-dark" value="Makuuhuoneet - Min." />
-                        <input type="submit" asp-for="Sort" class="dropdown-item text-dark" value="Nimi - Laskeva aakkosjärjestys" />
-                        <input type="submit" asp-for="Sort" class="dropdown-item text-dark" value="Nimi - Nouseva aakkosjärjestys" />
-                    </div>
-                </div>
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style=" width: 300px; background-color: #31ccfd; border-radius: 1.5rem;">
+                <h5>Järjestä</h5>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <input type="submit" asp-for="Sort" class="dropdown-item text-dark" value="Hinta - Halvimmat ensin" />
+                <input type="submit" asp-for="Sort" class="dropdown-item text-dark" value="Hinta - Kalleimmat ensin" />
+                @*<input type="submit" asp-for="Sort" class="dropdown-item text-dark" value="Pinta-ala - Suurimmat ensin" />
+                    <input type="submit" asp-for="Sort" class="dropdown-item text-dark" value="Pinta-ala - Pienimmät ensin" />*@
+                <input type="submit" asp-for="Sort" class="dropdown-item text-dark" value="Makuuhuoneet - Max." />
+                <input type="submit" asp-for="Sort" class="dropdown-item text-dark" value="Makuuhuoneet - Min." />
+                <input type="hidden" asp-for="Sort" value="@Model.Sort" />
             </div>
         </div>
+        <p><b>@ViewBag.SelectedSorting</b></p>
     }
+
+    <br />
+    <br />
+    @if (ViewBag.PageNumbers != null)
+    {
+        <ul class="pagination">
+            @for (int i = 1; i < ViewBag.PageNumbers + 1; i++)
+            {
+                @if (Model.PageNumber == i)
+                {
+                    <li class="page-item"><input type="submit" asp-for="PageNumber" class="page-link" value="@i" disabled style="color:black;" /></li>
+
+                }
+                else
+                {
+                    <li class="page-item"><input type="submit" asp-for="PageNumber" class="page-link" value="@i" /></li>
+                }
+            }
+        </ul>
+    }
+    @if (cabins == null && ViewBag.FirstEntry == true)
+    {
+        <div style="padding:100px;"></div>
+    }
+
+    @if (cabins == null && ViewBag.FirstEntry == false)
+    {
+        <h3>Annetuilla hakuehdoilla ei löytynyt kohteita. Ole hyvä ja muuta hakuehtoja.</h3>
+    }
+
+    @if (cabins != null)
+    {
+        <div class="container">
+            <hr />
+            <div style="padding:25px;"></div>
+            @foreach (var item in cabins)
+            {
+                <div class="row">
+                    <div class="col-md-6 text-center">
+                        <a asp-controller="Home" asp-action="Details" asp-route-id="@item.CabinId" class="text-dark">
+
+                            @if (item.CabinImages.Count() == 0)
+                            {
+                                <img src="~/images/cabin-has-no-images.png" style="height:15em;" />
+                            }
+                            else
+                            {
+                                <div id="carouselCabinImages-@item.CabinId" class="carousel slide" data-ride="carousel">
+                                    <div class="carousel-inner">
+
+                                        @for (int i = 0; i < item.CabinImages.Count(); i++)
+                                        {
+                                            var source = Configuration["BlobStorageConfig:BaseUrl"] + item.CabinImages[i].ImageUrl;
+
+                                            if (i == 0)
+                                            {
+                                                <div class="carousel-item active">
+                                                    <img src="@source" style="height:15em; max-width:400px;" />
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="carousel-item">
+                                                    <img src="@source" style="height: 15em; max-width: 400px;" />
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                    <a class="carousel-control-prev" href="#carouselCabinImages-@item.CabinId" role="button" data-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#carouselCabinImages-@item.CabinId" role="button" data-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
+                            }
+                        </a>
+                    </div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-3">
+
+                        <a asp-controller="Home" asp-action="Details" asp-route-id="@item.CabinId" class="text-dark">
+                            <h3>@item.CabinName</h3>
+                            <br />
+                            <p>@item.Rooms makuuhuonetta</p>
+                            <p>@item.Area m²</p>
+                            <p>@item.CabinPricePerDay € / vrk</p>
+
+                        </a>
+
+                    </div>
+                </div>
+                <div style="padding:25px;"></div>
+                <hr />
+                <div style="padding:25px;"></div>
+            }
+
+        </div>
+    }
+
+    @if (ViewBag.PageNumbers != null)
+    {
+        <ul class="pagination">
+            @for (int i = 1; i < ViewBag.PageNumbers + 1; i++)
+            {
+                @if (Model.PageNumber == i)
+                {
+                    <li class="page-item"><input type="submit" asp-for="PageNumber" class="page-link" value="@i" disabled style="color:black;" /></li>
+
+                }
+                else
+                {
+                    <li class="page-item"><input type="submit" asp-for="PageNumber" class="page-link" value="@i" /></li>
+                }
+            }
+        </ul>
+    }
+
 </form>
-<br />
-<br />
-<br />
-<br />
-
-@if (cabins == null && ViewBag.FirstEntry == false)
-{
-    <h3>Annetuilla hakuehdoilla ei löytynyt kohteita. Ole hyvä ja muuta hakuehtoja.</h3>
-}
-
-@if (cabins != null)
-{
-    <div class="container" style="width: 100%;">
-
-        @foreach (var item in cabins)
-        {
-            <div class="row" style="width:100%; padding-top: 5%; padding-bottom: 120px; vertical-align: middle;">
-                <div col-sm-3 style="padding-right: 60px; display: inline-block;">
-                    <a asp-controller="Home" asp-action="Details" asp-route-id="@item.CabinId" class="text-dark">
-
-                        @if (item.CabinImages.Count() == 0)
-                        {
-                            <img src="~/images/village-people-logo.png" style="width:15em; height:15em;" />
-                        }
-                        else
-                        {
-                            var source = "https://cabinreservationsystemsa.blob.core.windows.net/cabinreservationsystemblob/" + item.CabinImages[0].ImageUrl;
-
-                            <img src="@source" style="width:15em; height:15em; object-fit: cover;" />
-                        }
-                    </a>
-                </div>
-                <div col-sm-3 style="padding-right: 60px; padding-top:20px; display: inline-block;">
-
-                    <a asp-controller="Home" asp-action="Details" asp-route-id="@item.CabinId" class="text-dark">
-                        <h3>@item.CabinName</h3>
-                        <br />
-                        <p>@item.Rooms makuuhuonetta</p>
-                        <p>@item.Area m²</p>
-
-                    </a>
-
-                </div>
-                <div col-sm-3 style="padding-right: 90px; display: inline-block;">
-                    @{ var url = "https://cabinreservationsystemsa.blob.core.windows.net/cabinreservationsystemblob/Resorts/" + item.Resort.ResortName + ".png";}
-                    <img src=@url onerror="this.style.display='none'" style="width:5em; height:5em;" />
-                </div>
-                <div col-sm-3 style="padding-left:5px">
-                    <br />
-                    <h3>@item.CabinPricePerDay € / vrk</h3>
-                </div>
-            </div>
-        }
-
-    </div>
-
-    @Html.PagedListPager(cabins, page => Url.Action("IndexPagedList",
-    new
-        {
-            PageArrival = ViewBag.PageArrival,
-        PageDeparture = ViewBag.PageDeparture,
-        PageRooms = ViewBag.PageRooms,
-        searchWord = ViewBag.PageSearchWord,
-        PageSort = ViewBag.PageSort,
-        page
-    }))
-}
 
 <partial name="_UpperFooterPartial" />
 

@@ -15,5 +15,6 @@ namespace FrontEnd.Models
         public string Rooms { get; set; }
         [Display(Name = "Järjestä")]
         public string Sort { get; set; }
+        public int PageNumber { get; set; }
     }
 }

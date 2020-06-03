@@ -62,14 +62,38 @@ namespace FrontEnd.Controllers
         // Returns view with List of Cabins by given search conditions
         [HttpPost]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Index(Cabin cabin)
+        public async Task<IActionResult> Index(Cabin cabin, int pageNumber)
         {
             // If request came from Resorts/Index, set these
             if (cabin.Person == null) cabin.Person = new Person();
             ViewBag.ResortName = cabin.Resort.ResortName;
 
-            ViewBag.Cabins = await _service.GetCabins(User, cabin.Resort.ResortName, cabin.CabinName, cabin.Person.LastName);
+            var cabins = await _service.GetCabins(User, cabin.Resort.ResortName, cabin.CabinName, cabin.Person.LastName);
+
             ViewBag.FirstEntry = false;
+
+            var pageNumbers = 1;
+            var pageSize = 10;
+
+            if(cabins != null)
+            {
+                // Counting page numbers
+                if (cabins.Count() > pageSize)
+                {
+                    pageNumbers += cabins.Count() / pageSize;
+                    if (cabins.Count() % pageSize == 0) pageNumbers--;
+                }
+
+                if (pageNumber == 0) pageNumber = 1;
+
+                cabins = cabins.Skip((pageNumber - 1) * pageSize)
+                  .Take(pageSize);
+
+                ViewBag.Cabins = cabins;
+
+                ViewBag.PageNumbers = pageNumbers;
+                ViewBag.PageNumber = pageNumber;
+            }
 
             return View();
         }

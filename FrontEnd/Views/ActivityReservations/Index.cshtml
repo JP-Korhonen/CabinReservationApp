@@ -32,13 +32,6 @@
                 Varaajan sukunimi
             </label>
             <input asp-for="CabinReservation.Person.LastName" class="form-control" />
-
-            <!-- Setting starting- and endingdates in ActivityReservation.CabinReservationStart- and EndDate -->
-            @*<label>Alkaen</label>
-                <input asp-for="CabinReservation.ReservationStartDate" class="form-control" type="date" />
-                <label>Päättyen</label>
-                <input asp-for="CabinReservation.ReservationEndDate" class="form-control" type="date" />*@
-
             <br />
             @Html.HiddenFor(model => model.CabinReservation.ReservationStartDate, new { id = "Starting" })
             <input id="StartingDatePicker" class="form-control" autocomplete="off" placeholder="Alkaen" value="@ViewBag.Starting" />
@@ -50,7 +43,7 @@
             <div class="form-group">
                 <input type="submit" value="Hae" class="btn btn-primary" />
             </div>
-
+            <partial name="_PageNumbersPartial" />
         </form>
     </div>
 </div>
@@ -112,6 +105,8 @@
         </tbody>
     </table>
 }
+
+<div style="padding:200px;"></div>
 
 @section scripts{
     @* Scripts for calendar *@

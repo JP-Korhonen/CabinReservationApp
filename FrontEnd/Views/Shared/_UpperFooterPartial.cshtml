@@ -1,27 +1,25 @@
-﻿@*@using Microsoft.Extensions.Configuration
-@inject IConfiguration Configuration*@
+﻿<div style="padding:100px"></div>
 
-<div style="padding:110px"></div>
-
-<div class="container" style="padding-top:30px; border-top-left-radius: 25px; border-top-right-radius: 25px;">
+<div class="container">
     <div class="row">
-        <div class="col-sm-6 text-left " ">
-            <div class="container" style="width: 100%;">
-                <div style="top: 45%; left: 50%; ">
+        <div class="col-md-6 text-left">
+            <div class="container">
+                <div>
                     <br />
                     <br />
                     <h2 class="text-center">Matkakohteet</h2>
                     <br />
-                    <p class="lead" style="padding-top: 20px; padding-bottom:15px">
+                    <p class="lead">
                         Valitse mieleisesi matkakohde ja löydä majoituspaikka. Village Peoplen mökkitarjonnasta löydät sopivan mökin juuri sinulle. Mökkihaussa pääset valitsemaan mökkejä eri matkakohteista ja voit liittää hakuun mökkien ominaisuuksia.
                     </p>
                 </div>
             </div>
         </div>
-        <div class="col-sm-6" padding-right: 20px;>
-            <img src="/images/map-finland-blue.png" style="width: 270px; height: 501px;" />
+        <div class="col-sm-6">
+            <div style="text-align:center;">
+                <img src="/images/map-finland-blue.png" style="width: 270px; height: 501px;" />
+            </div>
         </div>
-
     </div>
 </div>
 
@@ -33,14 +31,3 @@
     <h3 style="color:white;"><b>Haluatko vuokrata mökkisi? Se on täysin ilmaista.</b></h3>
     <h3><b><a asp-controller="Home" asp-action="BecomeCabinOwner">Lue lisää</a></b></h3>
 </div>
-
-@*<div style="height:20em; width:100%; background-color:#3c76de; border-radius: 25px;  display: flex;
-  justify-content: center;
-  align-items: center;">
-    <div style="padding:30px">
-        <p style="color:#00a8f3; font-size: 2em;"><b>Mökin omistaja!</b></p>
-        <br />
-        <p style="color:antiquewhite; font-size: 2em;"><b>Haluatko vuokrata mökkisi? Se on täysin ilmaista.</b> <a onmouseover="this.style.color = 'blue'" onmouseout="this.style.color='black'" style="text-decoration:none;" asp-controller="Home" asp-action="BecomeCabinOwner"><b style="color:#39dcdc">Lue lisää!</b></a></p>
-    </div>
-</div>*@
-

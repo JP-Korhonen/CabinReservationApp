@@ -42,37 +42,37 @@
             }
             <dl class="row">
                 <dt class="col-sm-4">
-                    Varaaja :
+                    Varaaja
                 </dt>
                 <dd class="col-sm-8">
                     @cabinReservation.Person.FirstName @cabinReservation.Person.LastName
                 </dd>
                 <dt class="col-sm-4">
-                    Puhelinnumero :
+                    Puhelinnumero
                 </dt>
                 <dd class="col-sm-8">
                     @cabinReservation.Person.PhoneNumber
                 </dd>
                 <dt class="col-sm-4">
-                    Sähköposti :
+                    Sähköposti
                 </dt>
                 <dd class="col-sm-8">
                     @cabinReservation.Person.Email
                 </dd>
                 <dt class="col-sm-4">
-                    Osoite :
+                    Osoite
                 </dt>
                 <dd class="col-sm-8">
                     @cabinReservation.Person.Address
                 </dd>
                 <dt class="col-sm-4">
-                    Postinumero :
+                    Postinumero
                 </dt>
                 <dd class="col-sm-8">
                     @cabinReservation.Person.Post.PostalCode
                 </dd>
                 <dt class="col-sm-4">
-                    Postitoimipaikka :
+                    Postitoimipaikka
                 </dt>
                 <dd class="col-sm-8">
                     @cabinReservation.Person.Post.City
@@ -84,31 +84,31 @@
             <br />
             <dl class="row">
                 <dt class="col-sm-4">
-                    Kesto :
+                    Kesto
                 </dt>
                 <dd class="col-sm-8">
                     @duration.Days vrk
                 </dd>
                 <dt class="col-sm-4">
-                    Ajankohta :
+                    Ajankohta
                 </dt>
                 <dd class="col-sm-8">
                     @cabinReservation.ReservationStartDate.ToString("dd'.'MM'.'yyyy") - @cabinReservation.ReservationEndDate.ToString("dd'.'MM'.'yyyy")
                 </dd>
                 <dt class="col-sm-4">
-                    Majoitus :
+                    Majoitus
                 </dt>
                 <dd class="col-sm-8">
                     @cabinReservation.Cabin.CabinName, @cabinReservation.Cabin.Resort.ResortName.ToUpper()
                 </dd>
                 <dt class="col-sm-4">
-                    Kesto :
+                    Kesto
                 </dt>
                 <dd class="col-sm-8">
                     @duration.Days vrk
                 </dd>
                 <dt class="col-sm-4">
-                    Majoituksen hinta yht :
+                    Majoituksen hinta yht
                 </dt>
                 <dd class="col-sm-8">
                     @cabinTotalPrice €
@@ -125,14 +125,14 @@
                     totalPrice += item.Activity.ActivityPrice;
 
                     <dt class="col-sm-4">
-                        @item.Activity.ActivityName :
+                        @item.Activity.ActivityName
                     </dt>
                     <dd class="col-sm-8">
                         @item.ActivityReservationTime.ToString("dd'.'MM'.'yyyy")
                     </dd>
                 }
                 <dt class="col-sm-4">
-                    Lisäpalveluiden hinta yht :
+                    Lisäpalveluiden hinta yht
                 </dt>
                 <dd class="col-sm-8">
                     @activitiesTotalPrice  €
@@ -141,7 +141,7 @@
             <hr />
             <dl class="row">
                 <dt class="col-sm-4">
-                    Varauksen loppusumma :
+                    Varauksen loppusumma
                 </dt>
                 <dd class="col-sm-8">
                     <b>@totalPrice €</b>

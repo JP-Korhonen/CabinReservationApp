@@ -54,21 +54,45 @@ namespace FrontEnd.Controllers
         // If CabinId is not 0 returns Cabin all CabinReservations with no search conditions
         [HttpPost]
         [Authorize(Roles = "Administrator, CabinOwner")]
-        public async Task<IActionResult> Index(CabinReservation cabinReservation)
+        public async Task<IActionResult> Index(CabinReservation cabinReservation, int pageNumber)
         {
+            IEnumerable<CabinReservation> cabinReservations;
             if (cabinReservation.CabinId == 0)
             {
-                ViewBag.CabinReservations = await _service.GetCabinReservations(User, cabinReservation);
+                cabinReservations = await _service.GetCabinReservations(User, cabinReservation);
             }
             else
             {
-                ViewBag.CabinReservations = await _service.GetCabinReservations(User, cabinReservation.CabinId);
+                cabinReservations = await _service.GetCabinReservations(User, cabinReservation.CabinId);
             }
 
             ViewBag.FirstEntry = false;
 
             if (cabinReservation.ReservationStartDate != DateTime.MinValue) ViewBag.Starting = cabinReservation.ReservationStartDate.ToString("dd'.'MM'.'yyyy");
             if (cabinReservation.ReservationEndDate != DateTime.MinValue) ViewBag.Ending = cabinReservation.ReservationEndDate.ToString("dd'.'MM'.'yyyy");
+
+            var pageNumbers = 1;
+            var pageSize = 10;
+
+            if (cabinReservations != null)
+            {
+                // Counting page numbers
+                if (cabinReservations.Count() > pageSize)
+                {
+                    pageNumbers += cabinReservations.Count() / pageSize;
+                    if (cabinReservations.Count() % pageSize == 0) pageNumbers--;
+                }
+
+                if (pageNumber == 0) pageNumber = 1;
+
+                cabinReservations = cabinReservations.Skip((pageNumber - 1) * pageSize)
+                  .Take(pageSize);
+
+                ViewBag.CabinReservations = cabinReservations;
+
+                ViewBag.PageNumbers = pageNumbers;
+                ViewBag.PageNumber = pageNumber;
+            }
 
             return View();
         }
