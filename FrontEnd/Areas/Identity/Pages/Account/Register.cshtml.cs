@@ -71,27 +71,27 @@ namespace FrontEnd.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "Salasanat eivät täsmää.")]
             public string ConfirmPassword { get; set; }
 
-            [Required]
+            [CustomRequired]
             [Display(Name = "Henkilötunnus")]
             public string SocialSecurityNumber { get; set; }
 
-            [Required]
+            [CustomRequired]
             [Display(Name = "Etunimi")]
             public string FirstName { get; set; }
 
-            [Required]
+            [CustomRequired]
             [Display(Name = "Sukunimi")]
             public string LastName { get; set; }
 
-            [Required]
+            [CustomRequired]
             [Display(Name = "Puhelinnumero")]
             public string PhoneNumber { get; set; }
 
-            [Required]
+            [CustomRequired]
             [Display(Name = "Osoite")]
             public string Address { get; set; }
 
-            [Required]
+            [CustomRequired]
             [Display(Name = "Postinumero")]
             public string PostalCode { get; set; }
         }

@@ -140,10 +140,6 @@ function SelectReservationDays(dateText) {
     var dateNow = new Date();
     // If users selected dates are avaible and duration is not null, paint selected dates darkgreen and set EndDate
     if (SelectedDatesAvaible && Duration != 0 && StartDate) {
-        console.log("sd:" + StartDate)
-        console.log("usd:" + UsersSelectedDates)
-        console.log("dur:" + Duration)
-
         EndDate = new Date(StartDate.getTime() + (Duration * 86400000));
         $("#WarningDaysNotSelected").css({ opacity: 0 });
 

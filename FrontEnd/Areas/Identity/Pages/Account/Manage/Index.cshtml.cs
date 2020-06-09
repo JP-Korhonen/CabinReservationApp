@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
 using FrontEnd.Areas.Identity.Data;
 using FrontEnd.Models;
@@ -42,23 +41,23 @@ namespace FrontEnd.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Required]
+            [CustomRequired]
             [Display(Name = "Etunimi")]
             public string FirstName { get; set; }
 
-            [Required]
+            [CustomRequired]
             [Display(Name = "Sukunimi")]
             public string LastName { get; set; }
 
-            [Required]
+            [CustomRequired]
             [Display(Name = "Puhelinnumero")]
             public string PhoneNumber { get; set; }
 
-            [Required]
+            [CustomRequired]
             [Display(Name = "Osoite")]
             public string Address { get; set; }
 
-            [Required]
+            [CustomRequired]
             [Display(Name = "Postinumero")]
             public string PostalCode { get; set; }
         }
@@ -66,7 +65,7 @@ namespace FrontEnd.Areas.Identity.Pages.Account.Manage
         private async Task LoadAsync(FrontEndUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            //var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
             // Gets Person in Api by Identity-User
             var person = await _service.GetPerson(User);
@@ -77,7 +76,7 @@ namespace FrontEnd.Areas.Identity.Pages.Account.Manage
             {
                 FirstName = person.FirstName,
                 LastName = person.LastName,
-                PhoneNumber = phoneNumber,
+                PhoneNumber = person.PhoneNumber,
                 Address = person.Address,
                 PostalCode = person.PostalCode
             };
@@ -154,7 +153,7 @@ namespace FrontEnd.Areas.Identity.Pages.Account.Manage
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Käyttäjätiedot päivitetty onnistuneesti";
             return RedirectToPage();
         }
 

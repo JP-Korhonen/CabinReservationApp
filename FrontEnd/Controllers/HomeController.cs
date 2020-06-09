@@ -34,7 +34,7 @@ namespace FrontEnd.Controllers
         public async Task<ActionResult> Index(CabinSearch cabinSearch)
         {
             if (cabinSearch.Rooms == null) cabinSearch.Rooms = "1";
-            else cabinSearch.Rooms = cabinSearch.Rooms.Remove(cabinSearch.Rooms.Length - 9);
+            else cabinSearch.Rooms = cabinSearch.Rooms.Remove(cabinSearch.Rooms.Length - 14);
             if (cabinSearch.Rooms == ">10") cabinSearch.Rooms = "11";
 
             var cabins = await _service.GetCabins(cabinSearch.SearchWord, cabinSearch.Arrival, cabinSearch.Departure, cabinSearch.Rooms);
@@ -113,7 +113,6 @@ namespace FrontEnd.Controllers
 
         // GET: Home/BecomeCabinOwner
         // Returns View where User can send Request to become CabinOwner
-        [Authorize]
         public ActionResult BecomeCabinOwner()
         {
             if (User.IsInRole("CabinOwner") || User.IsInRole("Administrator")) return RedirectToAction("Create", "Cabins");
