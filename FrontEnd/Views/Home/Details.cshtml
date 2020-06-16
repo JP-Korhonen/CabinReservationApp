@@ -9,7 +9,6 @@
     var activities = await service.GetActivities(Model.ResortId);
     var cabinReservations = await service.GetCabinReservations(Model.CabinId);
     var cabins = await service.GetCabin(Model.CabinId);
-    ViewData["Title"] = "Details";
 
     List<DateTime> reservedDays = new List<DateTime>();
     // This are for setting calendar date-cell background-pic to half-red/half-green
@@ -148,7 +147,7 @@ else
             <h3>Varaustilanne</h3>
             <div id="showCabinReservations" style="width:400px"></div>
             <form>
-                <button asp-controller="CabinReservations" asp-action="Create" asp-route-id="@Model.CabinId" class="btn btn-success" style="width:255px;">Varaa</button>
+                <button asp-controller="CabinReservations" asp-action="Create" asp-route-id="@Model.CabinId" class="btn btn-primary" style="width:255px;">Varaamaan tästä</button>
             </form>
             <br />
         </div>

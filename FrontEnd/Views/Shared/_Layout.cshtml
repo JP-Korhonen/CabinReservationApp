@@ -3,14 +3,15 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    @*<title>@ViewData["Title"] - CabinReservationWebApplication</title>*@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    @* CSS for calendar *@
-
     @RenderSection("Styles", false)
+
+    <title>@ViewData["Title"]Cabins-Online</title>
+
+    <link href="~/favicon.png" rel="shortcut icon" type="image/x-icon" />
 
 </head>
 <body>
@@ -18,7 +19,7 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/images/village-people-logo.png" width="156" height="86" />
+                    <img src="~/images/cabins-online-logo.png" width="200" height="50" />
                 </a>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -55,10 +56,10 @@
 
         <h3>Ota yhteyttä</h3>
         <br />
-        <h4 class="lead">Village People</h4>
+        <h4 class="lead">Cabins-Online</h4>
         <h4 class="lead">Mökkitie 1</h4>
         <h4 class="lead">70100 Kuopio</h4>
-        <h4 class="lead">villagepeoplecabins@outlook.com</h4>
+        <h4 class="lead"><a href="mailto:cabins-online@outlook.com">cabins-online@outlook.com</a></h4>
         <br />
         <br />
 

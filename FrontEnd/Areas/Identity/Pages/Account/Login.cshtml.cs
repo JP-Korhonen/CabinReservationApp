@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using FrontEnd.Models;
 
 namespace FrontEnd.Areas.Identity.Pages.Account
 {
@@ -43,12 +44,12 @@ namespace FrontEnd.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [CustomRequired]
             [EmailAddress]
             [Display(Name = "Sähköposti")]
             public string Email { get; set; }
 
-            [Required]
+            [CustomRequired]
             [DataType(DataType.Password)]
             [Display(Name = "Salasana")]
             public string Password { get; set; }

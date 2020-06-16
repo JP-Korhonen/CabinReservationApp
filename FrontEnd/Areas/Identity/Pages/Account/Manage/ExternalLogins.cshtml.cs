@@ -12,99 +12,103 @@ namespace FrontEnd.Areas.Identity.Pages.Account.Manage
 {
     public class ExternalLoginsModel : PageModel
     {
-        private readonly UserManager<FrontEndUser> _userManager;
-        private readonly SignInManager<FrontEndUser> _signInManager;
+        // Dont allow User navigate in this page
+        public IActionResult OnGet() => RedirectToPage("/Account/AccessDenied");
+        public IActionResult OnPostAsync() => RedirectToPage("/Account/AccessDenied");
 
-        public ExternalLoginsModel(
-            UserManager<FrontEndUser> userManager,
-            SignInManager<FrontEndUser> signInManager)
-        {
-            _userManager = userManager;
-            _signInManager = signInManager;
-        }
+        //private readonly UserManager<FrontEndUser> _userManager;
+        //private readonly SignInManager<FrontEndUser> _signInManager;
 
-        public IList<UserLoginInfo> CurrentLogins { get; set; }
+        //public ExternalLoginsModel(
+        //    UserManager<FrontEndUser> userManager,
+        //    SignInManager<FrontEndUser> signInManager)
+        //{
+        //    _userManager = userManager;
+        //    _signInManager = signInManager;
+        //}
 
-        public IList<AuthenticationScheme> OtherLogins { get; set; }
+        //public IList<UserLoginInfo> CurrentLogins { get; set; }
 
-        public bool ShowRemoveButton { get; set; }
+        //public IList<AuthenticationScheme> OtherLogins { get; set; }
 
-        [TempData]
-        public string StatusMessage { get; set; }
+        //public bool ShowRemoveButton { get; set; }
 
-        public async Task<IActionResult> OnGetAsync()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return NotFound($"Unable to load user with ID 'user.Id'.");
-            }
+        //[TempData]
+        //public string StatusMessage { get; set; }
 
-            CurrentLogins = await _userManager.GetLoginsAsync(user);
-            OtherLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync())
-                .Where(auth => CurrentLogins.All(ul => auth.Name != ul.LoginProvider))
-                .ToList();
-            ShowRemoveButton = user.PasswordHash != null || CurrentLogins.Count > 1;
-            return Page();
-        }
+        //public async Task<IActionResult> OnGetAsync()
+        //{
+        //    var user = await _userManager.GetUserAsync(User);
+        //    if (user == null)
+        //    {
+        //        return NotFound($"Unable to load user with ID 'user.Id'.");
+        //    }
 
-        public async Task<IActionResult> OnPostRemoveLoginAsync(string loginProvider, string providerKey)
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return NotFound($"Unable to load user with ID 'user.Id'.");
-            }
+        //    CurrentLogins = await _userManager.GetLoginsAsync(user);
+        //    OtherLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync())
+        //        .Where(auth => CurrentLogins.All(ul => auth.Name != ul.LoginProvider))
+        //        .ToList();
+        //    ShowRemoveButton = user.PasswordHash != null || CurrentLogins.Count > 1;
+        //    return Page();
+        //}
 
-            var result = await _userManager.RemoveLoginAsync(user, loginProvider, providerKey);
-            if (!result.Succeeded)
-            {
-                StatusMessage = "The external login was not removed.";
-                return RedirectToPage();
-            }
+        //public async Task<IActionResult> OnPostRemoveLoginAsync(string loginProvider, string providerKey)
+        //{
+        //    var user = await _userManager.GetUserAsync(User);
+        //    if (user == null)
+        //    {
+        //        return NotFound($"Unable to load user with ID 'user.Id'.");
+        //    }
 
-            await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "The external login was removed.";
-            return RedirectToPage();
-        }
+        //    var result = await _userManager.RemoveLoginAsync(user, loginProvider, providerKey);
+        //    if (!result.Succeeded)
+        //    {
+        //        StatusMessage = "The external login was not removed.";
+        //        return RedirectToPage();
+        //    }
 
-        public async Task<IActionResult> OnPostLinkLoginAsync(string provider)
-        {
-            // Clear the existing external cookie to ensure a clean login process
-            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+        //    await _signInManager.RefreshSignInAsync(user);
+        //    StatusMessage = "The external login was removed.";
+        //    return RedirectToPage();
+        //}
 
-            // Request a redirect to the external login provider to link a login for the current user
-            var redirectUrl = Url.Page("./ExternalLogins", pageHandler: "LinkLoginCallback");
-            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, _userManager.GetUserId(User));
-            return new ChallengeResult(provider, properties);
-        }
+        //public async Task<IActionResult> OnPostLinkLoginAsync(string provider)
+        //{
+        //    // Clear the existing external cookie to ensure a clean login process
+        //    await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-        public async Task<IActionResult> OnGetLinkLoginCallbackAsync()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return NotFound($"Unable to load user with ID 'user.Id'.");
-            }
+        //    // Request a redirect to the external login provider to link a login for the current user
+        //    var redirectUrl = Url.Page("./ExternalLogins", pageHandler: "LinkLoginCallback");
+        //    var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, _userManager.GetUserId(User));
+        //    return new ChallengeResult(provider, properties);
+        //}
 
-            var info = await _signInManager.GetExternalLoginInfoAsync(user.Id);
-            if (info == null)
-            {
-                throw new InvalidOperationException($"Unexpected error occurred loading external login info for user with ID '{user.Id}'.");
-            }
+        //public async Task<IActionResult> OnGetLinkLoginCallbackAsync()
+        //{
+        //    var user = await _userManager.GetUserAsync(User);
+        //    if (user == null)
+        //    {
+        //        return NotFound($"Unable to load user with ID 'user.Id'.");
+        //    }
 
-            var result = await _userManager.AddLoginAsync(user, info);
-            if (!result.Succeeded)
-            {
-                StatusMessage = "The external login was not added. External logins can only be associated with one account.";
-                return RedirectToPage();
-            }
+        //    var info = await _signInManager.GetExternalLoginInfoAsync(user.Id);
+        //    if (info == null)
+        //    {
+        //        throw new InvalidOperationException($"Unexpected error occurred loading external login info for user with ID '{user.Id}'.");
+        //    }
 
-            // Clear the existing external cookie to ensure a clean login process
-            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+        //    var result = await _userManager.AddLoginAsync(user, info);
+        //    if (!result.Succeeded)
+        //    {
+        //        StatusMessage = "The external login was not added. External logins can only be associated with one account.";
+        //        return RedirectToPage();
+        //    }
 
-            StatusMessage = "The external login was added.";
-            return RedirectToPage();
-        }
+        //    // Clear the existing external cookie to ensure a clean login process
+        //    await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+
+        //    StatusMessage = "The external login was added.";
+        //    return RedirectToPage();
+        //}
     }
 }

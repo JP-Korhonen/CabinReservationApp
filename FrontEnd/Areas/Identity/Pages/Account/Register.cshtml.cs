@@ -55,12 +55,12 @@ namespace FrontEnd.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [CustomRequired]
             [EmailAddress]
             [Display(Name = "Sähköposti")]
             public string Email { get; set; }
 
-            [Required]
+            [CustomRequired]
             [StringLength(100, ErrorMessage = "{0} täytyy olla min. {2} merkkiä ja max. {1} merkkiä pitkä.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Salasana")]

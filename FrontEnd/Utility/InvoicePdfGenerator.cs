@@ -7,7 +7,7 @@ namespace FrontEnd.Utility
     {
         public static string GetHTMLString(Invoice invoiceData)
         {
-            //< img src = '~/wwwroot/images/village-people-logo.png' height = '150' />< br >
+            //< img src = '~/wwwroot/images/cabins-online-logo.png' width="200" height="50" />< br >
 
             var sb = new StringBuilder();
             sb.AppendFormat(@"
@@ -16,7 +16,7 @@ namespace FrontEnd.Utility
                 <body>
                         <div class='div-container-right'>
                                 
-                                Village People Oy<br />
+                                Cabins-Online Oy<br />
                                 Mökkitie 1<br />
                                 Evitskog<br />
                                 02550 Kirkkonummi

@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using CommonModels;
 using FrontEnd.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -28,10 +27,18 @@ namespace FrontEnd.Controllers
             return View();
         }
 
+        // POST: Home/ByResort
+        // This is because can't send HttpGet in _ResortsDropDownPartial
+        [HttpPost]
+        public ActionResult ByResort (CabinSearch cabinSearch)
+        {
+            return RedirectToAction("Search", cabinSearch);
+        }
+
         // Post: Home/Index
         // Returns view with List of Cabins by given search conditions
-        [HttpPost]
-        public async Task<ActionResult> Index(CabinSearch cabinSearch)
+        [HttpGet]
+        public async Task<ActionResult> Search(CabinSearch cabinSearch)
         {
             if (cabinSearch.Rooms == null) cabinSearch.Rooms = "1";
             else cabinSearch.Rooms = cabinSearch.Rooms.Remove(cabinSearch.Rooms.Length - 14);

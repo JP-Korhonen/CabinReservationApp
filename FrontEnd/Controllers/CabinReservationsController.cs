@@ -165,6 +165,7 @@ namespace FrontEnd.Controllers
         [Authorize(Roles = "Administrator, CabinOwner, Customer")]
         public async Task<ActionResult> SelectDates(CabinReservation cabinReservation)
         {
+            
             cabinReservation.ReservationStartDate = cabinReservation.ReservationStartDate.AddHours(3);
             cabinReservation.ReservationEndDate = cabinReservation.ReservationEndDate.AddHours(3);
 
@@ -187,6 +188,12 @@ namespace FrontEnd.Controllers
         [Authorize(Roles = "Administrator, CabinOwner, Customer")]
         public async Task<ActionResult> Confirm(CabinReservation cabinReservation)
         {
+            // Checking that ActivityReservations dates is between CabinReservation start- and end dates
+            foreach (var item in cabinReservation.ActivityReservations)
+            {
+                if (item.ActivityReservationTime.Date < cabinReservation.ReservationStartDate.Date || item.ActivityReservationTime.Date > cabinReservation.ReservationEndDate.Date) return View("ErrorPage");
+            }
+
             // This because timezones when publishing app, not right way/may not work in all timezones
             cabinReservation.ReservationStartDate = cabinReservation.ReservationStartDate.AddHours(3);
             cabinReservation.ReservationEndDate = cabinReservation.ReservationEndDate.AddHours(3);

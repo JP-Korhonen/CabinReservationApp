@@ -4,7 +4,6 @@
 @inject ServiceRepository service
 
 @{
-    ViewData["Title"] = "Tee varaus";
     // Getting avaible Activities by ResortId
     var activities = await service.GetActivities(ViewBag.Cabin.ResortId);
 

@@ -12,7 +12,7 @@ for details on configuring this project to bundle and minify static web assets. 
     display: contents;
 }
 
-a.navbar-brand {
+a.navbar-brand:hover {
     white-space: normal;
     text-align: center;
     word-break: break-all;
@@ -22,6 +22,15 @@ a.navbar-brand {
     position: initial !important;
     overflow: visible !important;
 }
+
+.navbar-nav .nav-item .nav-link {
+    color: black;
+}
+
+/*.navbar-nav .nav-item.active .nav-link,
+.navbar-nav .nav-item:hover .nav-link {
+    background-color: #e1f8ff;
+}*/
 
 /* Provide sufficient contrast against white background */
 a {

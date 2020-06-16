@@ -1,7 +1,6 @@
 ﻿@model CommonModels.CabinReservation
 
 @{
-    ViewData["Title"] = "Majoitusvarauksen tiedot";
     var bookingTime = Model.ReservationBookingTime.ToString("dd'.'MM'.'yyyy HH:mm:ss");
     var startDate = Model.ReservationStartDate.ToString("dd'.'MM'.'yyyy");
     var endDate = Model.ReservationEndDate.ToString("dd'.'MM'.'yyyy");
