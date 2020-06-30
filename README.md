@@ -1,6 +1,8 @@
 # CabinReservationApp
 Cabin reservation system.
 
+The original application was developed in a three-person project team, a final project of the Savonia Code Academy.
+
 The application allows customer to rent a cabin. 
 
 Solution includes 2 projects:
